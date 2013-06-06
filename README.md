@@ -96,7 +96,7 @@ logf.stylesEnabled = true|false;
 
 **Gerrod Thomas**
 
-+ http://twitter.com/gerrodthomas
++ http://twitter.com/gerrod
 
 
 ## Copyright
