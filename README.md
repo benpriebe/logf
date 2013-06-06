@@ -28,12 +28,12 @@ logf.info('Are you the 6 fingered man?')
 
 ```javascript
 window.logfilter = /trigger/
-logf.event('event:toiletFlushed triggered.'); // will be output
-logf.event('event:toiletFlushed subscribed.'); // will not be output
+logf.event('toiletFlushed triggered.'); // will be output
+logf.event('toiletFlushed subscribed.'); // will not be output
 
 window.logfilter = "trig"
-logf.event('event:toiletFlushed triggered.'); // will be output
-logf.event('event:toiletFlushed subscribed.'); // will not be output
+logf.event('toiletFlushed triggered.'); // will be output
+logf.event('toiletFlushed subscribed.'); // will not be output
 ```
 
 ### Other Options
