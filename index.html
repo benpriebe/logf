@@ -73,9 +73,9 @@
                         <div class="control-group" id="logTypes">
                             <div class="controls">
                                 <label class="control-label">Log Type</label>
-                                <label class="radio"><input type="radio" name="types" value="log" checked="">Log</label>
+                                <label class="radio"><input type="radio" name="types" value="log">Log</label>
                                 <label class="radio"><input type="radio" name="types" value="debug" >Debug</label>
-                                <label class="radio"><input type="radio" name="types" value="info">Info</label>
+                                <label class="radio"><input type="radio" name="types" value="info" checked="">Info</label>
                                 <label class="radio"><input type="radio" name="types" value="warn">Warning</label>
                                 <label class="radio"><input type="radio" name="types" value="error">Error</label>
                                 <label class="radio"><input type="radio" name="types" value="custom" id="custom">Custom</label>
@@ -141,7 +141,7 @@
                     var logType = $("#logTypes input:radio:checked").val();
                     if (logType == "custom") {
                         var logType = $("#type").val() || "system";
-                        var color = $("#color").val() || "pink";
+                        var color = $("#color").val() || "purple";
                         var consoleMethod = $("#customType input:radio:checked").val();
                         logf.addType(logType, color, consoleMethod);
                     }
