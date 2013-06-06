@@ -84,6 +84,8 @@
                                 <label>Options</label>
                                 <label class="checkbox"><input type="checkbox" checked="" id="showTimestamps">Show Timestamps</label>
                                 <label class="checkbox"><input type="checkbox" id="enableStyles">Color Code Log Types</label>
+                                <label class="checkbox"><input type="checkbox" id="withObject" checked="">Log message with object</label>
+                                <p style="font-size: .8em">Use %o in your message to render the included object a different way.</p>
                             </div>
                         </div>
                     </div>
@@ -118,7 +120,7 @@
         </section>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/benpriebe/logf/master/logf.js" data-main="main"></script>
+        <script type="text/javascript" src="https://rawgithub.com/benpriebe/logf/master/logf.js" data-main="main"></script>
 
         <script type="text/javascript">
             $(function () {
@@ -145,9 +147,14 @@
                     }
                     var enableStyles = $("#enableStyles:checked").length;
                     var showTimestamps = $("#showTimestamps:checked").length;
+                    var includeObject = $("#withObject:checked").length;
+
                     logf.stylesEnabled = enableStyles;
                     logf.showTimestamps = showTimestamps;
-                    logf[logType](message);
+                    if (!includeObject)
+                        logf[logType](message);
+                    else
+                        logf[logType](message, { id: 1, name: "sample object"});
                 });
 
                 $("#clearBtn").on("click", function() {
