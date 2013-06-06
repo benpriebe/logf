@@ -17,17 +17,43 @@ For other API calls, see the [demo]((http://benpriebe.github.io/logf/index.html)
 
 2. use logf to display a log for log, debug, info, warn or error
 
+	```javascript
   	// Display a console.info log
-		log.info('Are you the 6 fingered man?')
+	logf.info('Are you the 6 fingered man?')
+	```
 
 3. use logf to define your own log types - e.g. events, system
 
-    log.addType('event', 'blue', 'info');
-    log.event('event:toiletFlushed triggered.');
+    	```javascript
+    	logf.addType('event', 'blue', 'info');
+    	logf.event('event:toiletFlushed triggered.');
+    	````
 
 ### Other Options
-todo:
+
+#### Switch Loggers On|Off
+
+	```javascript
+	logf.on("all");
+	logf.off("all");
+	logf.off("debug");
+	logf.off("debug, info");
+	long.on("debug, info");
+	```
 	
+#### Show|Hide Timestamps
+
+	```javascript
+	logf.showTimestamps = true|false;
+	```
+	
+#### Enable Styles (coloring of log types)
+
+Only, google chrome and the full version of Firefox Firebug support css styling of console output. 
+
+	```javascript
+	logf.stylesEnabled = true|false;
+	```
 
 ## Authors
 **Ben Priebe**
