@@ -3,6 +3,8 @@ A javascript logging framework with pretty colors, timestamps and filtering.
 It works really well with Chrome and does ok with Firebug and Firebug lite.
 It has been written to work with/without requireJS.
 
+logf was conceived to replace the DurandalJS system.log function and provide a unified logger for 
+DurandalJS Single Page Apps (SPAs) (see section of using with DurandalJS)
 
 ## Demo
 Demo can be found at http://benpriebe.github.io/logf/index.html
@@ -60,19 +62,19 @@ The following message will be output using console.info method.
 There are two ways to log objects to the logger. 
 
 ```javascript
-logf.info("Here is my message", { id: 1, name: "sample name"});
+logf.info("Here is my message", { id: 1, name: "sample name", nested: {}});
 ```
 
 ```12:34:19:063: Here is my message > Object {id: 1, name: "sample name", nested: Object}```
 
 ```javascript
-logf.info("Here is my message - o%", { id: 1, name: "sample name"});
+logf.info("Here is my message - o%", { id: 1, name: "sample name", nested: {}});
 ```
 
 ```12:34:19:063: Here is my message > Object```
 
 ```javascript
-logf.info("Here is my o% - message", { id: 1, name: "sample name"});
+logf.info("Here is my o% - message", { id: 1, name: "sample name", nested: {}});
 ```
 
 ```12:34:19:063: Here is my > Object message```
@@ -100,6 +102,38 @@ Only, google chrome and the full version of Firefox Firebug support css styling 
 
 ```javascript
 logf.stylesEnabled = true|false;
+```
+
+### Using *logf* with DurandalJS apps
+
+In a typical DurandalJS app you would set turn on Durandal framework log messages by setting debug to true.
+
+```javascript
+ system.debug(true);
+```
+
+Output from ```system.log``` calls is collapsed by default requiring user interaction to actually see what objects have been logged.
+
+e.g. The user has to expand the output to see that properties and values from a system.log call.
+
+```["Activating Route", Object, ViewModel, Sammy.Object]```
+
+When using *logf* to replace DurandalJSs logging, the output shows more detail at a glance without requiring user
+interaction to see more.
+
+```
+system: Activating Route Object {name: "Login", url: "login", moduleId: "viewmodels/login", caption: "<i class="icon-search"></i> Login", visible: false…} ViewModel {route: function, router: Object, app: Object, system: Object, config: Object…} Sammy.Object {routeInfo: Object, router: Object, escapeHTML: function, h: function, toHash: function…}
+```  
+
+To replace the system.log function in DurandalJS with *logf* just add the following lines of code in your main.js
+
+NOTE: Be sure to require *logf* as a dependency first.
+
+```javascript
+// create the custom log type - system
+logf.addType("system", "green", "log");
+// reassigning the system.logger to custom logger. this replaces -> system.debug(true);
+system.log = logf.system;
 ```
 
 ## Authors
