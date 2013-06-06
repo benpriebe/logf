@@ -154,7 +154,11 @@
                     if (!includeObject)
                         logf[logType](message);
                     else
-                        logf[logType](message, { id: 1, name: "sample object"});
+                        logf[logType](message, {
+                            id: 1,
+                            name: "sample object",
+                            nested : { id : 2, name: "nested property"}
+                            });
                 });
 
                 $("#clearBtn").on("click", function() {
