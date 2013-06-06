@@ -1,0 +1,165 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8">
+        <title>logf</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <style>
+            .row {
+                margin-left: 0;
+            }
+            .control-label {
+                margin-top: 20px;
+                margin-bottom: 10px;
+                font-size: 1.2em;
+            }
+
+            .hero-unit {
+                padding: 30px;
+            }
+            .hero-unit h1 {
+                margin-bottom: 10px;
+            }
+            .hero-unit p {
+                font-weight: normal;
+                font-size: .8em;
+            }
+        </style>
+
+    <body style="padding: 30px" class="container">
+
+    <section class="row">
+
+        <div class="hero-unit">
+            <h1>logf</h1>
+            <h4>A javascript logging framework for the browser with pretty colors, timestamps and filtering.</h4>
+            <p>
+               This is a demo page that allows you to see logf in action. To see the logf output you need to open up the
+               browsers dev. tools console (usually F12 then navigate to the console tab).
+            </p>
+            <p>
+                logf is written to be useful and as such requires either <b>Google Chrome</b> or one of the other browsers with <b>firebug</b> or <b>firebug light</b> installed.
+            </p>
+
+            <b>firebug lite</b>
+            <p> To run firebug lite,  click this <a href="javascript:(function(F,i,r,e,b,u,g,L,I,T,E){if(F.getElementById(b))return;E=F[i+'NS']&&F.documentElement.namespaceURI;E=E?F[i+'NS'](E,'script'):F[i]('script');E[r]('id',b);E[r]('src',I+g+T);E[r](b,u);(F[e]('head')[0]||F[e]('body')[0]).appendChild(E);E=new%20Image;E[r]('src',I+L);})(document,'createElement','setAttribute','getElementsByTagName','FirebugLite','4','firebug-lite.js','releases/lite/latest/skin/xp/sprite.png','https://getfirebug.com/','#startOpened');
+" id="firebuglite">bookmarklet</a></p>
+            <p>NOTE: The firebug lite plugin currently does not support css styles for console messages.</p>
+
+            <b>Links</b>
+            <ul>
+                <li><a href="https://github.com/benpriebe/logf">github repo</a></li>
+            </ul>
+
+        </div>
+
+            <div class="well row">
+                <div class="row span11">
+                    <div class="span4">
+                        <div class="control-group">
+                            <div class="controls">
+                                <label class="control-label" for="message">Message</label>
+                                <textarea class="input-xlarge" id="message" rows="3" placeholder="Enter a message ..."></textarea>
+                                <label class="control-label" for="filter">Filter</label>
+                                <input class="input-xlarge" id="filter" placeholder="Enter a filter (can be regex)..."/>
+                                <p style="font-size: .8em">To use the filter enter in any valid regex (or plain text) to filter log messages on.
+                                If the log message contains the filter expression, it'll show up on the console otherwise it won't.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="span3">
+                        <div class="control-group" id="logTypes">
+                            <div class="controls">
+                                <label class="control-label">Log Type</label>
+                                <label class="radio"><input type="radio" name="types" value="log" checked="">Log</label>
+                                <label class="radio"><input type="radio" name="types" value="debug" >Debug</label>
+                                <label class="radio"><input type="radio" name="types" value="info">Info</label>
+                                <label class="radio"><input type="radio" name="types" value="warn">Warning</label>
+                                <label class="radio"><input type="radio" name="types" value="error">Error</label>
+                                <label class="radio"><input type="radio" name="types" value="custom" id="custom">Custom</label>
+                            </div>
+                            <div class="controls" style="margin-top: 20px">
+                                <label>Options</label>
+                                <label class="checkbox"><input type="checkbox" checked="" id="showTimestamps">Show Timestamps</label>
+                                <label class="checkbox"><input type="checkbox" id="enableStyles">Color Code Log Types</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="customLogger" class="span3" style="display: none">
+                        <div class="control-group" id="customType">
+                            <div class="controls">
+                                <label class="control-label" for="type">Type</label>
+                                <input class="input-xlarge" id="type" placeholder="Enter a new log type (eg. system)"/>
+                                <label class="control-label" for="color">Color</label>
+                                <input class="input-xlarge" id="color" placeholder="Enter a color for the log (e.g. #ccc, blue)"/>
+                                <label class="control-label">Console Method</label>
+                                <label class="radio"><input type="radio" name="methods" value="log" checked="">Log</label>
+                                <label class="radio"><input type="radio" name="methods" value="debug">Debug</label>
+                                <label class="radio"><input type="radio" name="methods" value="info">Info</label>
+                                <label class="radio"><input type="radio" name="methods" value="warn">Warn</label>
+                                <label class="radio"><input type="radio" name="methods" value="error">Error</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row span11" style="margin-top: 20px;">
+                    <button type="button" class="btn btn-primary" id="logBtn">Log</button>
+                    <button type="button" class="btn btn-danger" id="clearBtn">Clear Filter</button>
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="../logf.js" data-main="main"></script>
+
+        <script type="text/javascript">
+            $(function () {
+
+                $("input[name='types']").on("change", function() {
+                    var radioValue = $(this).val();
+                    if($(this).is(":checked") && radioValue == "custom")
+                    {
+                        $('#customLogger').show();
+                    }   else {
+                        $('#customLogger').hide();
+                    }
+                });
+
+                $("#logBtn").on("click", function() {
+                    window.logfilter = $("#filter").val();
+                    var message = $("#message").val() || "This is a message. Hello!";
+                    var logType = $("#logTypes input:radio:checked").val();
+                    if (logType == "custom") {
+                        var logType = $("#type").val() || "system";
+                        var color = $("#color").val() || "pink";
+                        var consoleMethod = $("#customType input:radio:checked").val();
+                        logf.addType(logType, color, consoleMethod);
+                    }
+                    var enableStyles = $("#enableStyles:checked").length;
+                    var showTimestamps = $("#showTimestamps:checked").length;
+                    logf.stylesEnabled = enableStyles;
+                    logf.showTimestamps = showTimestamps;
+                    logf[logType](message);
+                });
+
+                $("#clearBtn").on("click", function() {
+                    $("#filter").val("");
+                });
+
+                $("#firebuglite").on("click", function(){
+                    $("#enableStyles").removeAttr("checked").attr("disabled", "disabled");
+                });
+            })
+        </script>
+
+
+    </body>
+</html>
