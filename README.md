@@ -48,8 +48,12 @@ console method to use (log, debug, warn, info, error).
 
 ```javascript
 logf.addType('event', 'blue', 'info');
-logf.event('event:toiletFlushed triggered.');
+logf.event('toiletFlushed triggered.');
 ```
+
+The following message will be output using console.info method.
+
+```event: toiletFlushed triggered.```
 
 #### Switch Loggers On|Off
 
@@ -58,7 +62,7 @@ logf.on("all");
 logf.off("all");
 logf.off("debug");
 logf.off("debug, info");
-long.on("debug, info");
+logf.on("debug, info");
 ```
 	
 #### Show|Hide Timestamps
