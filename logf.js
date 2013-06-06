@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2012 Ben Priebe and Gerrod Thomas.  
+ * Copyright 2013 Ben Priebe and Gerrod Thomas.
  * All Rights Reserved.  
  * Use, reproduction, distribution, and modification of this code is subject to the terms and 
  * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
