@@ -1,5 +1,5 @@
 # logf
-**logf** A javascript logging framework with pretty colors, timestamps and filtering. 
+A javascript logging framework with pretty colors, timestamps and filtering. 
 It works really well with Chrome and does ok with Firebug and Firebug lite.
 It has been written to work with/without requireJS.
 
@@ -54,6 +54,16 @@ logf.event('toiletFlushed triggered.');
 The following message will be output using console.info method.
 
 ```event: toiletFlushed triggered.```
+
+#### Logging objects to the console
+
+There are two ways to log objects to the logger. One will show the object representation inline, 
+the other shows it using the console.dir() method giving you a collapsible reprenstation of the object.
+
+```javascript
+logf.info("Here is my message", { id: 1, name: "sample name"});
+logf.info("Here is my message - o%", { id: 1, name: "sample name"});
+```
 
 #### Switch Loggers On|Off
 
