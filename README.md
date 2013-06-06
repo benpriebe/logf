@@ -57,13 +57,26 @@ The following message will be output using console.info method.
 
 #### Logging objects to the console
 
-There are two ways to log objects to the logger. One will show the object representation inline, 
-the other shows it using the console.dir() method giving you a collapsible reprenstation of the object.
+There are two ways to log objects to the logger. 
 
 ```javascript
 logf.info("Here is my message", { id: 1, name: "sample name"});
+```
+
+```12:34:19:063: Here is my message > Object {id: 1, name: "sample name", nested: Object}```
+
+```javascript
 logf.info("Here is my message - o%", { id: 1, name: "sample name"});
 ```
+
+```12:34:19:063: Here is my message > Object```
+
+```javascript
+logf.info("Here is my o% - message", { id: 1, name: "sample name"});
+```
+
+```12:34:19:063: Here is my > Object message```
+
 
 #### Switch Loggers On|Off
 
