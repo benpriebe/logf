@@ -15,7 +15,7 @@ todo:
 ## Quick start
 
 ###3 Easy Steps
-For other API calls, see the [demo]((http://benpriebe.github.io/logf/index.html)).
+(For other API calls, see the [demo]((http://benpriebe.github.io/logf/index.html)).
 
 1. Link to logf.js `<script src="logf.js"></script>`
 
