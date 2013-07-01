@@ -8,9 +8,9 @@
  * Project: https://github.com/benpriebe/logf
  */
 ;
-(function(define) {
-    define(function() {
-        window.logfilter = window.logfilter|| "";
+(function (define) {
+    define(function () {
+        window.logfilter = window.logfilter || "";
         var noop = function () { };
 
         // Ensure we have a forEach for older browsers
@@ -39,7 +39,7 @@
                 logIt("debug", "#333", "debug").apply(this, arguments);
             },
 
-            info: function() {
+            info: function () {
                 logIt("info", "blue", "info").apply(this, arguments);
             },
 
@@ -47,7 +47,7 @@
                 logIt("warn", "orange", "warn").apply(this, arguments);
             },
 
-            error: function() {
+            error: function () {
                 logIt("error", "red", "error").apply(this, arguments);
             },
         };
@@ -56,15 +56,20 @@
         // e.g.    addType("event", "pink", "info");
         // usage:  flog.event("your log message");
         function addType(name, color, consoleMethod) {
-            implementations[name] = function() {
+            var logger = function () {
                 logIt(name, color, consoleMethod).apply(this, arguments);
             };
-            on(name); // turn it on by default
+
+            // turn it on by default
+            implementations[name] = logger;
+            on(name);
+
+            return logger;
         }
 
         function on() {
             var args = Array.prototype.slice.call(arguments, 0);
-            args.forEach(function(logger) {
+            args.forEach(function (logger) {
                 if (logger == "all") {
                     for (prop in implementations) {
                         logf[prop] = implementations[prop];
@@ -79,7 +84,7 @@
 
         function off() {
             var args = Array.prototype.slice.call(arguments, 0);
-            args.forEach(function(logger) {
+            args.forEach(function (logger) {
                 if (logger == "all") {
                     for (prop in implementations) {
                         logf[prop] = noop;
@@ -93,7 +98,7 @@
         }
 
         function logIt(type, color, logger) {
-            return function() {
+            return function () {
                 var args = Array.prototype.slice.call(arguments, 0);
 
                 if (logf.showTimestamps) {
@@ -143,19 +148,19 @@
         }
 
         var str = {
-            format: function(value) {
+            format: function (value) {
                 if (!value)
                     return value;
 
                 var args = Array.prototype.slice.call(arguments, 1);
-                return value.replace(/{(\d+)}/g, function(match, number) {
+                return value.replace(/{(\d+)}/g, function (match, number) {
                     return typeof args[number] != 'undefined'
                         ? args[number]
                         : match;
                 });
             },
 
-            pad: function(value, length, padCharacter) {
+            pad: function (value, length, padCharacter) {
                 if (!(length && padCharacter))
                     return value;
 
@@ -184,7 +189,7 @@
                 return result.join("");
             },
 
-            zeroPad: function(value, length) {
+            zeroPad: function (value, length) {
                 return str.pad(value, length, "0");
             }
         };
