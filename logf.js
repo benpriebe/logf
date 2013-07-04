@@ -11,7 +11,6 @@
 (function (define) {
     define(function () {
         window.logfilter = window.logfilter || "";
-        var noop = function () { };
 
         // Ensure we have a forEach for older browsers
         if (!Array.prototype.forEach) {
@@ -30,75 +29,56 @@
             stylesEnabled: true
         };
 
-        var implementations = {
-            log: function () {
-                logIt("", "#666", "log").apply(this, arguments);
-            },
-
-            debug: function () {
-                logIt("debug", "#333", "debug").apply(this, arguments);
-            },
-
-            info: function () {
-                logIt("info", "blue", "info").apply(this, arguments);
-            },
-
-            warn: function () {
-                logIt("warn", "orange", "warn").apply(this, arguments);
-            },
-
-            error: function () {
-                logIt("error", "red", "error").apply(this, arguments);
-            },
-        };
+        var loggers = {};
+        createLogger("", "#666", "log");
+        createLogger("debug", "#777", "debug");
+        createLogger("info", "blue", "info");
+        createLogger("warn", "orange", "warn", true);
+        createLogger("error", "red", "error", true);
 
         // Add custom log types.
         // e.g.    addType("event", "pink", "info");
         // usage:  flog.event("your log message");
         function addType(name, color, consoleMethod) {
-            var logger = function () {
-                logIt(name, color, consoleMethod).apply(this, arguments);
-            };
+            createLogger(name, color, consoleMethod);
 
-            // turn it on by default
-            implementations[name] = logger;
-            on(name);
-
-            return logger;
+            return logf[name];
         }
 
         function on() {
-            var args = Array.prototype.slice.call(arguments, 0);
-            args.forEach(function (logger) {
-                if (logger == "all") {
-                    for (prop in implementations) {
-                        logf[prop] = implementations[prop];
-                    }
-                } else {
-                    logf[logger] = implementations[logger];
-                }
-            });
-
-            return logf;
+            setActive.call(this, true, Array.prototype.slice.call(arguments, 0));
         }
 
         function off() {
-            var args = Array.prototype.slice.call(arguments, 0);
-            args.forEach(function (logger) {
-                if (logger == "all") {
-                    for (prop in implementations) {
-                        logf[prop] = noop;
+            setActive.call(this, false, Array.prototype.slice.call(arguments, 0));
+        }
+
+        function setActive(isActive, names) {
+            names.forEach(function (name) {
+                if (name == "all") {
+                    for (prop in loggers) {
+                        loggers[prop] = isActive;
                     }
+
                 } else {
-                    logf[logger] = noop;
+                    loggers[name] = isActive;
                 }
             });
 
             return logf;
         }
 
-        function logIt(type, color, logger) {
-            return function () {
+        function isLoggerActive(logger) {
+            return loggers.hasOwnProperty(logger) && loggers[logger];
+        }
+
+        function createLogger(type, color, logger, includeStack) {
+            var loggerName = type || logger;
+
+            var impl = function () {
+                if (!isLoggerActive(loggerName))
+                    return;
+
                 var args = Array.prototype.slice.call(arguments, 0);
 
                 if (logf.showTimestamps) {
@@ -121,9 +101,18 @@
                     }
                 }
 
-                if (filter.apply(this, args))
+                if (filter.apply(this, args)) {
                     console[logger].apply(console, args);
+
+                    if (includeStack)
+                        console.trace();
+                }
             };
+
+            logf[loggerName] = impl;
+            loggers[loggerName] = true;
+
+            return true;
         }
 
         function getTimestamp() {
@@ -144,6 +133,7 @@
                 if (typeof arg == "string" && arg.match(window.logfilter))
                     return true;
             }
+
             return false;
         }
 
@@ -194,8 +184,6 @@
             }
         };
 
-        // turn the standard loggers on by default
-        on("all");
         return logf;
     });
 }
